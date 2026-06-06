@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Palomas Countdown</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff0f5;
+      color: #333;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    h1 { font-size: 36px; }
+
+    #countdown {
+      font-size: 30px;
+      margin: 30px 0;
+      font-weight: bold;
+    }
+
+    .bar {
+      width: 90%;
+      max-width: 500px;
+      height: 28px;
+      background: #ffd6e7;
+      border-radius: 20px;
+      margin: 25px auto;
+      overflow: hidden;
+    }
+
+    #progress {
+      height: 100%;
+      width: 0%;
+      background: #ff69b4;
+      border-radius: 20px;
+      transition: width 0.5s;
+    }
+
+    #percent {
+      font-size: 22px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎓 Palomas Countdown to Freedom ❤️</h1>
+
+  <p>You already made it this far.</p>
+
+  <div id="countdown"></div>
+
+  <div class="bar">
+    <div id="progress"></div>
+  </div>
+
+  <div id="percent"></div>
+
+  <script>
+    // Startdatum und Enddatum anpassen:
+    const startDatum = new Date("2026-01-01T00:00:00").getTime();
+    const zielDatum  = new Date("2026-06-18T12:59:59").getTime();
+
+    function updateCountdown() {
+      const jetzt = new Date().getTime();
+      const verbleibend = zielDatum - jetzt;
+      const gesamt = zielDatum - startDatum;
+      const geschafft = jetzt - startDatum;
+
+      if (verbleibend <= 0) {
+        document.getElementById("countdown").innerHTML = "Geschafft! 🎉";
+        document.getElementById("progress").style.width = "100%";
+        document.getElementById("percent").innerHTML = "100 % Done ❤️";
+        return;
+      }
+
+      const tage = Math.floor(verbleibend / (1000 * 60 * 60 * 24));
+      const stunden = Math.floor((verbleibend / (1000 * 60 * 60)) % 24);
+      const minuten = Math.floor((verbleibend / (1000 * 60)) % 60);
+
+      let prozent = (geschafft / gesamt) * 100;
+      prozent = Math.max(0, Math.min(100, prozent));
+
+      document.getElementById("countdown").innerHTML =
+        tage + " Tage, " + stunden + " Stunden, " + minuten + " Minuten";
+
+      document.getElementById("progress").style.width = prozent + "%";
+
+      document.getElementById("percent").innerHTML =
+        prozent.toFixed(1) + " % Done";
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+
+</body>
+</html>
